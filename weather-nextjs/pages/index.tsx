@@ -28,7 +28,6 @@ const Home = () => {
      }
      const [lat,setLat] = useState();
      const [lon,setLon] = useState();
-     const [country,setCountry] = useState('')
      return(
           <div>
                <Header city = {city} onChangeForm = {onChangeForm} />
