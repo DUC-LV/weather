@@ -3,7 +3,9 @@ import React from "react";
 
 const CurrentWeather = () => {
     return (
-        <div></div>
+        <div className = "container">
+            <div></div>
+        </div>
     );
 }
-export default CurrentWeather;;
+export default CurrentWeather;

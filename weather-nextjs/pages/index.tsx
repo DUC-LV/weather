@@ -4,6 +4,7 @@ import getCurrentWeather from "../src/Service/getCurrentWeather";
 import getHourlyWeather from "../src/Service/getHourlyWeather";
 import {useEffect,useState} from "react";
 import Menu from "../src/Components/Menu/Menu";
+import CurrentWeather from "./CurrentWeather";
 
 const Home = () => {
      useEffect(() => {
@@ -20,7 +21,7 @@ const Home = () => {
                               console.log(err.data)
                          })
                      }
-     })
+     },)
      const [city,setCity] = useState('');
      const onChangeForm = (cityName:string) => {
           console.log(cityName);
@@ -32,6 +33,8 @@ const Home = () => {
           <div>
                <Header city = {city} onChangeForm = {onChangeForm} />
                <Menu lat = {lat} lon = {lon} city = {city} />
+               {/* <span className="deg">°</span>C */}
+               <CurrentWeather />
           </div>
      );
 }
