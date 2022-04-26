@@ -1,8 +1,6 @@
 import React from "react";
 import Link from "next/link";
 interface myCoordinates{
-    lat:any,
-    lon:any,
     city:string,
 }
 
@@ -21,7 +19,7 @@ const Menu = (props:myCoordinates) => {
                             <li>
                                 <Link href = {{
                                 pathname : "/HourlyWeather",
-                                query : {lat:props.lat,lon:props.lon,city:props.city}
+                                query : {city:props.city}
                                 }}>
                                     Hàng Giờ
                                 </Link>
@@ -29,7 +27,7 @@ const Menu = (props:myCoordinates) => {
                             <li>
                                 <Link href = {{
                                 pathname : "/DailyWeather",
-                                query : {lat:props.lat,lon:props.lon}
+                                query : {city:props.city}
                                 }}>
                                     7 Ngày
                                 </Link>
@@ -51,7 +49,7 @@ const Menu = (props:myCoordinates) => {
                 }
                 ul li {
                     float: left;
-                    margin-left: 300px;
+                    margin-left: 320px;
                     color: white;
                     list-style: none;
                     text-decoration: ;

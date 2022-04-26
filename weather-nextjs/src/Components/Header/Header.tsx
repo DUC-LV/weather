@@ -1,15 +1,14 @@
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useCallback } from "react";
 import {useState} from "react";
-interface MyProps {
-    city:string,
-    onChangeForm:(cityName:string) => void;
-}
 
-const Header = (props:MyProps) => {
-    const [currentCity,setCurrentCity] = useState(props.city);
-    const handleClick = () => {
-        props.onChangeForm(currentCity);
-    }
+const Header = () => {
+    const router = useRouter();
+    const [currentCity, setCurrentCity] = useState('');
+    const handleClick = useCallback(() => {
+        if (!currentCity) return;
+        router.push(`${router.pathname}?city=${currentCity}`, `${router.pathname}?city=${currentCity}`, { shallow: true });
+    }, [currentCity]);
     return (
         <div className = "container">
             <div className = "head">
@@ -76,7 +75,7 @@ const Header = (props:MyProps) => {
                     text-align:center;
                 }
                 .button-body{
-                    margin-left:50px;
+                    margin-left:30px;
                 }
                 .select{
                     float:right;
