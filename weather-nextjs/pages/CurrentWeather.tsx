@@ -178,37 +178,37 @@ const CurrentWeather = () => {
                     <h3 className="feel">Cảm giác như: {data?.weather?.[0].description}</h3>
                     <div className="container-body-left">
                         <div className="box-left">
-                            <p className="icons"><FaTemperatureHigh /> Cao/Thấp</p>
+                            <p className="icons"><FaTemperatureHigh style = {{color:'rgb(106,222,248)'}} /> Cao/Thấp</p>
                             <p className="value">{(Number(data?.main?.temp_max)-273).toFixed(1)}°/{(Number(data?.main?.temp_min)-273).toFixed(1)}°</p>
                         </div>
                         <div className="box-left">
-                            <p className="icons"><WiHumidity /> Độ ẩm</p>
+                            <p className="icons"><WiHumidity style = {{color:'rgb(106,222,248)'}} /> Độ ẩm</p>
                             <p className="value">{data?.main?.humidity} %</p>
                         </div>
                         <div className="box-left">
-                            <p className="icons"><CgCompressV /> Áp suất</p>
+                            <p className="icons"><CgCompressV  style = {{color:'rgb(106,222,248)'}}/> Áp suất</p>
                             <p className="value">{data?.main?.pressure} mb</p>
                         </div>
                         <div className="box-left">
-                            <p className="icons"><BsFillSunriseFill /> Sunrise</p>
+                            <p className="icons"><BsFillSunriseFill style = {{color:'rgb(106,222,248)'}}/> Sunrise</p>
                             <p className="value">{hourlySunrise}:{secondSunrise}</p>
                         </div>
                     </div>
                     <div className="container-body-right">
                         <div className="box-right">
-                            <p className="icons"><BiWind /> Gió</p>
+                            <p className="icons"><BiWind style = {{color:'rgb(106,222,248)'}} /> Gió</p>
                             <p className="value">{data?.wind?.speed} km/h</p>
                         </div>
                         <div className="box-right">
-                            <p className="icons"><MdVisibility /> Tầm nhìn</p>
+                            <p className="icons"><MdVisibility style = {{color:'rgb(106,222,248)'}} /> Tầm nhìn</p>
                             <p className="value">{Number(data?.visibility)/1000} km</p>
                         </div>
                         <div className="box-right">
-                            <p className="icons"><GiOrbitalRays /> U/V</p>
+                            <p className="icons"><GiOrbitalRays style = {{color:'rgb(106,222,248)'}} /> U/V</p>
                             <p className="value">3/10</p>
                         </div>
                         <div className="box-right">
-                            <p className="icons"><BsFillSunsetFill /> Sunset</p>
+                            <p className="icons"><BsFillSunsetFill style = {{color:'rgb(106,222,248)'}} /> Sunset</p>
                             <p className="value">{hourlySunset}:{secondSunset}</p>
                         </div>
                     </div>
