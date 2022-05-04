@@ -1,60 +1,50 @@
 import React from "react";
 import Link from 'next/Link';
-interface CurrentHourlyWeatherData {
-    hourly?:[
-        {
-            dt?: number,
-            temp?: number,
-            feels_like?: number,
-            pressure?: number,
-            humidity?: number,
-            dew_point?: number,
-            uvi?: number,
-            clouds?: number,
-            visibility?: number,
-            wind_speed?: number,
-            wind_deg?: number,
-            wind_gust?: number
-            weather: [
-                {
-                    id?: number,
-                    main?: string,
-                    description?: string,
-                    icon?: string
-                }
-            ],
-            pop?: number
-        },
-    ]
+import {useState} from 'react'
+interface dataHourlys {
+    time: string;
+    tempMax?: string;
+    tempMin?: string;
+    temp?: string;
+    iconUrl?: string;
+    status?: string;
+}
+interface CurrentTimeData {
+    title: string;
+    dataTime?: dataHourlys[],
+        
+    
+    seeMore?: {
+        title: string;
+        link: string;
+    }
 }
 
-const CurrentTime = () => {
+const CurrentTime = (props:CurrentTimeData) => {
+    const { title, dataTime, seeMore } = props;
     return(
         <>
             <div className = "current_hourly">
-                <h3 className = "title_hourly">Dự báo từng giờ</h3>
-                <div className = "box1">
-                    <h4 className = "box1-title">Bây giờ</h4>
-                    <h3 className = "box1-temp">{(Number(dataHourly?.hourly?.[0].temp)-273).toFixed(1)}°C</h3>
-                    <img src={`http://openweathermap.org/img/wn/${dataHourly?.hourly?.[0].weather?.[0].icon}@2x.png`} className ="box1-icon" />
-                    <h4 className = "box1-title">{dataHourly?.hourly?.[0].weather?.[0].description}</h4>
-                </div>
+                <h3 className = "title_hourly">{title}</h3>
                 <>
-                    {dataHourly?.hourly?.slice(1,5).map((item:any) => {
-                        const hours = new Date(Number(item.dt)*1000).getHours();
+                    {dataTime?.map((item:any) => {
+                        // const hours = new Date(Number(item.dt)*1000).getHours();
                         return(
                             <div className = "box2">
-                                <h3 className = "box1-title">{hours} : 00</h3>
+                                <h3 className = "box1-title">{item.time}</h3>
                                 <h3 className = "box1-temp">{(item.temp-273).toFixed(1)}°C</h3>
-                                <img src = {`http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`} className ="box1-icon" />
-                                <h4 className = "box1-title">{item.weather[0].description}</h4>
+                                <h3 className = "box1-temp">{(item.tempMax-273).toFixed(1)}°C</h3>
+                                <img src = {item.iconUrl} className ="box1-icon" />
+                                <h4 className = "box1-title">{item.status}</h4>
                             </div>
                         )
                     })}
                 </>
-                <button className ="button">
-                    <Link href = "/HourlyWeather">48 Giờ tới</Link>
-                </button>
+                {!!seeMore && (
+                    <button className ="button">
+                        <Link href ={seeMore.link}>{seeMore.title}</Link>
+                     </button>
+                )}
                 <style jsx>{`
                     .button{
                         height:30px;
@@ -98,10 +88,16 @@ const CurrentTime = () => {
                     .box2,.box1{
                         display:inline-block;
                     }
+                    @media only screen and (max-width:46.1875em){
+                        .current_hourly{
+                            position:relative;
+                            right:80px;
+                        }
+                    }
                     
                 `}</style>
             </div>
         </>
-    )
+    );
 }
 export default CurrentTime;
