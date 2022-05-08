@@ -1,19 +1,14 @@
 import React from "react";
-import Link from 'next/Link';
-import {useState} from 'react'
-interface dataHourlys {
-    time: string;
-    tempMax?: string;
-    tempMin?: string;
-    temp?: string;
-    iconUrl?: string;
-    status?: string;
+import Link from 'next/link';
+export interface DataHourlys {
+    temp: number;
+    time: string; 
+    status: string;
+    iconUrl: string;
 }
 interface CurrentTimeData {
-    title: string;
-    dataTime?: dataHourlys[],
-        
-    
+    title?: string;
+    dataHourly?: DataHourlys[],
     seeMore?: {
         title: string;
         link: string;
@@ -21,20 +16,19 @@ interface CurrentTimeData {
 }
 
 const CurrentTime = (props:CurrentTimeData) => {
-    const { title, dataTime, seeMore } = props;
+    const { title, dataHourly, seeMore } = props;
     return(
         <>
             <div className = "current_hourly">
                 <h3 className = "title_hourly">{title}</h3>
                 <>
-                    {dataTime?.map((item:any) => {
+                    {dataHourly?.map((item:any) => {
                         // const hours = new Date(Number(item.dt)*1000).getHours();
                         return(
                             <div className = "box2">
-                                <h3 className = "box1-title">{item.time}</h3>
+                                <h3 className = "box1-title"></h3>
                                 <h3 className = "box1-temp">{(item.temp-273).toFixed(1)}°C</h3>
-                                <h3 className = "box1-temp">{(item.tempMax-273).toFixed(1)}°C</h3>
-                                <img src = {item.iconUrl} className ="box1-icon" />
+                                <img src = {`http://openweathermap.org/img/wn/${item.iconUrl}@2x.png`} className ="box1-icon" />
                                 <h4 className = "box1-title">{item.status}</h4>
                             </div>
                         )

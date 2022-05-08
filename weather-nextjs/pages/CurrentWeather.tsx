@@ -1,25 +1,16 @@
-import { LinkProps } from "next-routes";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
-import Current from "../src/Components/Container/Current/Current";
-import CurrentTime from "../src/Components/Container/Current/CurrentTime";
 import getCurrentWeather from "../src/Service/getCurrentWeather";
 import getHourlyWeather from "../src/Service/getHourlyWeather";
-interface dataHourlys {
-            time: string;
-            tempMax?: string;
-            tempMin?: string;
-            temp?: string;
-            iconUrl?: string;
-            status?: string;
-}
+import Current from "../src/Components/Container/Current/Current";
+import CurrentTime from "../src/Components/Container/Current/CurrentTime";
 const CurrentWeather = () => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [city, setCity] = useState('');
-    const [dataCurrent, setDataCurrent] = useState({});
-    const [dataHourly, setDataHourly] = useState<dataHourlys[]>([]);
-    const [dataDaily, setDataDaily] = useState<dataHourlys[]>([]);
+    const [current, setCurrent] = useState<any>([]);
+    const [hourly, setHourly] = useState<any[]>([]);
+    const [daily, setDaily] = useState<any[]>([]);
     useEffect(() => {
         if (router.query['city']) {
             setCity(String(router.query['city']));
@@ -34,13 +25,13 @@ const CurrentWeather = () => {
         getCurrentWeather(city)
              .then(res => {
                  console.log(res.data)
-                 setDataCurrent(res.data);
+                 setCurrent(res.data);
                   if (res.data.coord.lat && res.data.coord.lon) {
                        getHourlyWeather(res.data.coord.lat, res.data.coord.lon)
                        .then(res => {
                            console.log(res.data)
-                           setDataHourly(res.data.hourly.slice(0,5))
-                           setDataDaily(res.data.daily.slice(0,5))
+                           setHourly(res.data.hourly.slice(0,5))
+                           setDaily(res.data.daily.slice(0,5))
                         })
                     }
              })
@@ -51,37 +42,59 @@ const CurrentWeather = () => {
     return (
         <>
             <Current
-            // dataCurrent={dataCurrent}
+                dataCurrent = {[
+                    {
+                        time:current.dt,
+                        name:current.name,
+                        temp:current.main?.temp,
+                        status:current.weather?.[0].main,
+                        temp_day:current.main?.temp_max,
+                        temp_night:current.main?.temp_min,
+                        iconUrl:current.weather?.[0].icon,
+                        humidity:current.main?.humidity, // độ ẩm
+                        pressure:current.main?.pressure, // áp suất
+                        wind_speed:current.wind?.speed, // tốc độ gió
+                        visibility:current.visibility, // tầm nhìn
+                        sunrise:current.sys?.sunrise, 
+                        sunset:current.sys?.sunset
+                    }
+                ]}
             />
             <br></br>
             <br></br>
             <CurrentTime
                 title="Thời tiết hằng giờ"
-                dataTime={dataHourly?.map((item:dataHourlys) => {
-                    let  {time,temp,tempMax,iconUrl,status,tempMin} = item;
-                    return {time,temp,tempMax,iconUrl,status,tempMin}
+                dataHourly={hourly?.map((item: any) => {
+                    return { 
+                        temp: item.temp,
+                        time: item.dt, 
+                        status: item.weather[0].main,
+                        iconUrl: item.weather?.[0].icon
+                     }
                 })}
                 seeMore = {
                     {
                         title:"48 giờ tiếp",
                         link:"/HourlyWeather"
                     }
-                }  
+                } 
             />
-            <br></br>
-            <br></br>
             <CurrentTime
                 title="Thời tiết hằng ngày"
-                dataTime={dataDaily?.map((item:dataHourlys) => {
-                    let  {time,temp,tempMax,iconUrl,status,tempMin} = item;
-                    return {time,temp,tempMax,iconUrl,status,tempMin}
+                dataHourly={daily?.map((item: any) => {
+                    return {
+                        temp: item.temp.day,
+                        time: item.dt, 
+                        status: item.weather[0].main,
+                        iconUrl: item.weather?.[0].icon
+                    }
                 })}
                 seeMore = {
                     {
                         title:"7 ngày tiếp",
                         link:"/DailyWeather"
                     }
-                }
+                } 
             />
         </>
     );

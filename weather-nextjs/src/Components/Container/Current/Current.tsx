@@ -6,41 +6,32 @@ import { MdVisibility } from 'react-icons/md'
 import { BsFillSunriseFill,BsFillSunsetFill } from 'react-icons/bs'
 import { BiWind } from 'react-icons/bi'
 import { GiOrbitalRays } from 'react-icons/Gi'
+export interface Currentdata {
+    time?:string,
+    name?:string,
+    temp?:string;
+    status?:string;
+    temp_day?:string;
+    temp_night?:string;
+    iconUrl?: string;
+    humidity?:string; // độ ẩm
+    pressure?:string; // áp suất
+    wind_speed?:string; // tốc độ gió
+    visibility?:string; // tầm nhìn
+    sunrise?:string; 
+    sunset?:string;
+}
 interface CurrentWeatherData {
-    dataCurrent?:[
-        {
-            time?:string,
-            name?:string,
-            temp?:string;
-            status?:string;
-            temp_day?:string;
-            temp_night?:string;
-            iconUrl?: string;
-            humidity?:string; // độ ẩm
-            pressure?:string; // áp suất
-            wind_speed?:string; // tốc độ gió
-            visibility?:string; // tầm nhìn
-            sunrise?:string; 
-            sunset?:string;
-        }
-    ]
+    dataCurrent?:Currentdata[]
 }
 
 const Current = (props:CurrentWeatherData) => {
-    // const day = (new Date(Number(data?.dt)*1000)).getDay();
-    // const month = (new Date(Number(data?.dt)*1000)).getMonth() + 1;
-    // const year = (new Date(Number(data?.dt)*1000)).getFullYear();
-    // const hourlySunrise = (new Date(Number(data?.sys?.sunrise)*1000)).getHours();
-    // const secondSunrise = (new Date(Number(data?.sys?.sunrise)*1000)).getMinutes();
-    // const hourlySunset = (new Date(Number(data?.sys?.sunset)*1000)).getHours();
-    // const secondSunset = (new Date(Number(data?.sys?.sunset)*1000)).getMinutes();
-    // let icon = <img src = {`http://openweathermap.org/img/wn/${data?.weather?.[0].icon}@2x.png`}></img>
     const { dataCurrent } = props;
     return(
         <>
             <div className = "container">
                 <div className = "container_name">
-                    <p className="city-name">Thời Tiết Ngày {}/{}/{} Tại {dataCurrent?.[0]?.name} </p>
+                    <p className="city-name">Thời Tiết Ngày {new Date((Number(dataCurrent?.[0]?.time)*1000)).getDate()}/{new Date((Number(dataCurrent?.[0]?.time)*1000)).getMonth()+1}/{new Date((Number(dataCurrent?.[0]?.time)*1000)).getFullYear()} Tại {dataCurrent?.[0]?.name} </p>
                 </div>
                 <div className="container-state">
                     <h3 className="temp">{(Number(dataCurrent?.[0]?.temp)-273).toFixed(1)} °C</h3>
@@ -49,13 +40,13 @@ const Current = (props:CurrentWeatherData) => {
                     <h3 className="temp-night">Đêm: {(Number(dataCurrent?.[0]?.temp_night)-273).toFixed(1)} °C</h3>
                 </div>
                 <div className="icon">
-                    <p>{dataCurrent?.[0]?.iconUrl}</p>
+                    <img src = {`http://openweathermap.org/img/wn/${dataCurrent?.[0].iconUrl}@2x.png`}></img>
                 </div>
                 <br></br>
                 <br></br>
                 <br></br>
                 <div className="container-body">
-                    <h3 className="city-names">Thời Tiết Ngày {}/{}/{} Tại {dataCurrent?.[0]?.name}</h3>
+                    <h3 className="city-names">Thời Tiết Ngày {new Date((Number(dataCurrent?.[0]?.time)*1000)).getDate()}/{new Date((Number(dataCurrent?.[0]?.time)*1000)).getMonth()+1}/{new Date((Number(dataCurrent?.[0]?.time)*1000)).getFullYear()} Tại {dataCurrent?.[0]?.name}</h3>
                     <h3 className="temp">{(Number(dataCurrent?.[0]?.temp)-273).toFixed(1)} °C</h3>
                     <h3 className="feel">Cảm giác như: {dataCurrent?.[0]?.status}</h3>
                     <div className="container-body-left">
@@ -73,7 +64,7 @@ const Current = (props:CurrentWeatherData) => {
                         </div>
                         <div className="box-left">
                             <p className="icons"><BsFillSunriseFill style = {{color:'rgb(106,222,248)'}}/> Sunrise</p>
-                            <p className="value">{dataCurrent?.[0]?.sunrise}:{dataCurrent?.[0]?.sunrise}</p>
+                            <p className="value">{new Date((Number(dataCurrent?.[0]?.sunrise)*1000)).getHours()}:{new Date((Number(dataCurrent?.[0]?.sunrise)*1000)).getMinutes()}</p>
                         </div>
                     </div>
                     <div className="container-body-right">
@@ -91,7 +82,7 @@ const Current = (props:CurrentWeatherData) => {
                         </div>
                         <div className="box-right">
                             <p className="icons"><BsFillSunsetFill style = {{color:'rgb(106,222,248)'}} /> Sunset</p>
-                            <p className="value">{dataCurrent?.[0]?.sunset}:{dataCurrent?.[0]?.sunset}</p>
+                            <p className="value">{new Date((Number(dataCurrent?.[0]?.sunset)*1000)).getHours()}:{new Date((Number(dataCurrent?.[0]?.sunset)*1000)).getMinutes()}</p>
                         </div>
                     </div>
                 </div>
