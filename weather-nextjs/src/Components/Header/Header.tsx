@@ -12,8 +12,12 @@ const Header = () => {
     return (
         <div className = "container">
             <div className = "head">
-                <img src="https://img.lovepik.com/free_png/33/55/31/15858PICReMrIXaQfmKrA_PIC2018.png_860.png" alt="ảnh dự báo thời tiết" className="img-head" />
-                <h3 className = "title-head">Weather App</h3>
+                <a href = "/CurrentWeather">
+                    <img src="https://img.lovepik.com/free_png/33/55/31/15858PICReMrIXaQfmKrA_PIC2018.png_860.png" alt="ảnh dự báo thời tiết" className="img-head" />
+                </a>
+                <a href ="/CurrentWeather">
+                    <h3 className = "title-head">Weather App</h3>
+                </a>
             </div>
             <div className = "body">
                 <input
@@ -49,18 +53,21 @@ const Header = () => {
                     height:60px;
                     margin-top:10px;
                     margin-left:10px;
+                    cursor:pointer;
                 }
                 .title-head{
                     color:white;
                     position:relative;
                     left:15px;
                     bottom:20px;
+                    cursor:pointer;
                 }
                 .input-body{
                     margin-left:350px;
                     width:400px;
                     border:none;
                     text-align:center;
+                    outline:none;
                 }
                 input[type="text"]{
                     font-size:15px;
@@ -76,7 +83,11 @@ const Header = () => {
                 }
                 .button-body{
                     margin-left:30px;
+                    cursor:pointer;
+                    border:none;
                 }
+                button:hover { background-color: LightSteelBlue; }
+                button:active { background-color: SteelBlue; color: White; }
                 .select{
                     float:right;
                     height:35px;
@@ -84,6 +95,25 @@ const Header = () => {
                     position:relative;
                     top:22px;
                     right:50px;
+                    cursor:pointer;
+                }
+                @media all and (min-width: 800px) and (max-width: 1024px){
+                    .container{
+                        width:1100px;
+                    }
+                    .input-body,.button-body{
+                        position:relative;
+                        right:80px;
+                    }
+                }
+                @media only screen and (max-width:46.1875em){
+                    .container{
+                        width:1100px;
+                    }
+                    .input-body,.button-body{
+                        position:relative;
+                        right:80px;
+                    }
                 }
             `}</style>
         </div>

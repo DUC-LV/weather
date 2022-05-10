@@ -96,6 +96,11 @@ const Footer = () => {
                     height:80px;
                     width:280px;
                 }
+                @media only screen and (max-width:46.1875em){
+                    .footer{
+                        width:1100px;
+                    }
+                }
             `}</style>
         </div>
     );

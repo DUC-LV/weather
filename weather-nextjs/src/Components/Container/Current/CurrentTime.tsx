@@ -1,5 +1,6 @@
 import React from "react";
 import Link from 'next/link';
+import {getConvertTemp} from '../../../Service/utils'
 export interface DataHourlys {
     temp: number;
     time: string; 
@@ -23,11 +24,10 @@ const CurrentTime = (props:CurrentTimeData) => {
                 <h3 className = "title_hourly">{title}</h3>
                 <>
                     {dataHourly?.map((item:any) => {
-                        // const hours = new Date(Number(item.dt)*1000).getHours();
                         return(
                             <div className = "box2">
                                 <h3 className = "box1-title"></h3>
-                                <h3 className = "box1-temp">{(item.temp-273).toFixed(1)}°C</h3>
+                                <h3 className = "box1-temp">{getConvertTemp(Number(dataHourly?.[0]?.temp))}°C</h3>
                                 <img src = {`http://openweathermap.org/img/wn/${item.iconUrl}@2x.png`} className ="box1-icon" />
                                 <h4 className = "box1-title">{item.status}</h4>
                             </div>
@@ -63,6 +63,7 @@ const CurrentTime = (props:CurrentTimeData) => {
                         border-radius:10px;
                         background-color:white;
                         margin-left:350px;
+                        margin-top:50px;
                     }
                     .box1{
                         width:160px;
@@ -88,7 +89,6 @@ const CurrentTime = (props:CurrentTimeData) => {
                             right:80px;
                         }
                     }
-                    
                 `}</style>
             </div>
         </>

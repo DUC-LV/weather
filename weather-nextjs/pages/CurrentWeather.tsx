@@ -4,6 +4,7 @@ import getCurrentWeather from "../src/Service/getCurrentWeather";
 import getHourlyWeather from "../src/Service/getHourlyWeather";
 import Current from "../src/Components/Container/Current/Current";
 import CurrentTime from "../src/Components/Container/Current/CurrentTime";
+import { DEAFAULT_CITY } from "../src/Service/config";
 const CurrentWeather = () => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
@@ -15,7 +16,7 @@ const CurrentWeather = () => {
         if (router.query['city']) {
             setCity(String(router.query['city']));
         } else {
-            setCity('Vietnam') // TODO: get default city from config
+            setCity(DEAFAULT_CITY)
         }
     }, [router.query]);
 
@@ -60,8 +61,6 @@ const CurrentWeather = () => {
                     }
                 ]}
             />
-            <br></br>
-            <br></br>
             <CurrentTime
                 title="Thời tiết hằng giờ"
                 dataHourly={hourly?.map((item: any) => {

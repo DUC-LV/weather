@@ -3,6 +3,7 @@ import getCurrentWeather from "../src/Service/getCurrentWeather";
 import getHourlyWeather from "../src/Service/getHourlyWeather";
 import { useRouter } from "next/router";
 import HourlyTime from "../src/Components/Container/Hourly/HourlyTime";
+import { DEAFAULT_CITY } from "../src/Service/config";
 
 const HourlyWeather = () => {
     const router = useRouter();
@@ -13,8 +14,12 @@ const HourlyWeather = () => {
     useEffect(() => {
         if (router.query['city']) {
             setCity(String(router.query['city']));
-        } else {
-            setCity('Vietnam') // TODO: get default city from config
+        }
+        // else if(router.query['city'] === null){
+        //     console.log("không có gì để hiển thị")
+        // }
+        else {
+            setCity(DEAFAULT_CITY) 
         }
     }, [router.query]);
     useEffect(() => {
@@ -25,7 +30,7 @@ const HourlyWeather = () => {
                   if (res.data.coord.lat && res.data.coord.lon) {
                        getHourlyWeather(res.data.coord.lat, res.data.coord.lon)
                        .then(res => {
-                        setToday(res.data.hourly.slice(0,23))
+                        setToday(res.data.hourly.slice(1,23))
                         setTomorow(res.data.hourly.slice(24,47))
                         })
                     }
@@ -52,8 +57,6 @@ const HourlyWeather = () => {
                     }
                 })} 
             />
-            <br></br>
-            <br></br>
             <HourlyTime 
                 title="Ngày Mai"
                 dataHourly = {tomorow?.map((item:any) => {

@@ -6,6 +6,7 @@ import { MdVisibility } from 'react-icons/md'
 import { BsFillSunriseFill,BsFillSunsetFill } from 'react-icons/bs'
 import { BiWind } from 'react-icons/bi'
 import { GiOrbitalRays } from 'react-icons/Gi'
+import { getConvertTemp, getFullTimeFromDatetime, getSunrise, getSunset } from "../../../Service/utils";
 export interface Currentdata {
     time?:string,
     name?:string,
@@ -31,13 +32,13 @@ const Current = (props:CurrentWeatherData) => {
         <>
             <div className = "container">
                 <div className = "container_name">
-                    <p className="city-name">Thời Tiết Ngày {new Date((Number(dataCurrent?.[0]?.time)*1000)).getDate()}/{new Date((Number(dataCurrent?.[0]?.time)*1000)).getMonth()+1}/{new Date((Number(dataCurrent?.[0]?.time)*1000)).getFullYear()} Tại {dataCurrent?.[0]?.name} </p>
+                    <p className="city-name">Thời Tiết Ngày {getFullTimeFromDatetime(Number(dataCurrent?.[0]?.time))} Tại {dataCurrent?.[0]?.name} </p>
                 </div>
                 <div className="container-state">
-                    <h3 className="temp">{(Number(dataCurrent?.[0]?.temp)-273).toFixed(1)} °C</h3>
+                    <h3 className="temp">{getConvertTemp(Number(dataCurrent?.[0]?.temp))} °C</h3>
                     <h3 className="status">Trạng Thái: {dataCurrent?.[0]?.status}</h3>
-                    <h3 className="temp-day">Ngày: {(Number(dataCurrent?.[0]?.temp_day)-273).toFixed(1)} °C</h3>
-                    <h3 className="temp-night">Đêm: {(Number(dataCurrent?.[0]?.temp_night)-273).toFixed(1)} °C</h3>
+                    <h3 className="temp-day">Ngày: {getConvertTemp(Number(dataCurrent?.[0]?.temp_day))} °C</h3>
+                    <h3 className="temp-night">Đêm: {getConvertTemp(Number(dataCurrent?.[0]?.temp_night))} °C</h3>
                 </div>
                 <div className="icon">
                     <img src = {`http://openweathermap.org/img/wn/${dataCurrent?.[0].iconUrl}@2x.png`}></img>
@@ -46,13 +47,13 @@ const Current = (props:CurrentWeatherData) => {
                 <br></br>
                 <br></br>
                 <div className="container-body">
-                    <h3 className="city-names">Thời Tiết Ngày {new Date((Number(dataCurrent?.[0]?.time)*1000)).getDate()}/{new Date((Number(dataCurrent?.[0]?.time)*1000)).getMonth()+1}/{new Date((Number(dataCurrent?.[0]?.time)*1000)).getFullYear()} Tại {dataCurrent?.[0]?.name}</h3>
-                    <h3 className="temp">{(Number(dataCurrent?.[0]?.temp)-273).toFixed(1)} °C</h3>
+                    <h3 className="city-names">Thời Tiết Ngày {getFullTimeFromDatetime(Number(dataCurrent?.[0]?.time))} Tại {dataCurrent?.[0]?.name}</h3>
+                    <h3 className="temp">{getConvertTemp(Number(dataCurrent?.[0]?.temp))} °C</h3>
                     <h3 className="feel">Cảm giác như: {dataCurrent?.[0]?.status}</h3>
                     <div className="container-body-left">
                         <div className="box-left">
                             <p className="icons"><FaTemperatureHigh style = {{color:'rgb(106,222,248)'}} /> Cao/Thấp</p>
-                            <p className="value">{(Number(dataCurrent?.[0]?.temp_day)-273).toFixed(1)}°/{(Number(dataCurrent?.[0]?.temp_night)-273).toFixed(1)}°</p>
+                            <p className="value">{getConvertTemp(Number(dataCurrent?.[0]?.temp_day))}°/{getConvertTemp(Number(dataCurrent?.[0]?.temp_night))}°</p>
                         </div>
                         <div className="box-left">
                             <p className="icons"><WiHumidity style = {{color:'rgb(106,222,248)'}} /> Độ ẩm</p>
@@ -64,7 +65,7 @@ const Current = (props:CurrentWeatherData) => {
                         </div>
                         <div className="box-left">
                             <p className="icons"><BsFillSunriseFill style = {{color:'rgb(106,222,248)'}}/> Sunrise</p>
-                            <p className="value">{new Date((Number(dataCurrent?.[0]?.sunrise)*1000)).getHours()}:{new Date((Number(dataCurrent?.[0]?.sunrise)*1000)).getMinutes()}</p>
+                            <p className="value">{getSunrise(Number(dataCurrent?.[0]?.sunrise))}</p>
                         </div>
                     </div>
                     <div className="container-body-right">
@@ -82,7 +83,7 @@ const Current = (props:CurrentWeatherData) => {
                         </div>
                         <div className="box-right">
                             <p className="icons"><BsFillSunsetFill style = {{color:'rgb(106,222,248)'}} /> Sunset</p>
-                            <p className="value">{new Date((Number(dataCurrent?.[0]?.sunset)*1000)).getHours()}:{new Date((Number(dataCurrent?.[0]?.sunset)*1000)).getMinutes()}</p>
+                            <p className="value">{getSunset(Number(dataCurrent?.[0]?.sunset))}</p>
                         </div>
                     </div>
                 </div>
@@ -152,7 +153,7 @@ const Current = (props:CurrentWeatherData) => {
                     }
                     .container-body-left,.container-body-right{
                         display:inline-block;
-                        margin-top:60px;
+                        margin-top:30px;
                     }
                     .icons,.value{
                         display:inline;
@@ -171,6 +172,12 @@ const Current = (props:CurrentWeatherData) => {
                     }
                     .feel{
                         margin-left:30px;
+                    }
+                    @media only screen and (max-width:46.1875em){
+                        .container_name,.container-state,.container-body{
+                            position:relative;
+                            right:80px;
+                        }
                     }
                 `}</style>
             </div>

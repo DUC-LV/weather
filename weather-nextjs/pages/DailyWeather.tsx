@@ -1,61 +1,62 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Header from "../src/Components/Header/Header";
-import Menu from "../src/Components/Menu/Menu";
 import getCurrentWeather from "../src/Service/getCurrentWeather";
 import getHourlyWeather from "../src/Service/getHourlyWeather";
-interface CurrentWeatherData {
-    main?: {
-        temp?: string;
-
-    },
-    weather?: [
-        {
-            description?:string;
-        }
-    ],
-    dt?:number,
-}
+import { useRouter } from "next/router";
+import DailyTime from "../src/Components/Container/Daily/DailyTime";
+import { DEAFAULT_CITY } from "../src/Service/config";
 
 const DailyWeather = () => {
+    const router = useRouter();
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState<CurrentWeatherData | undefined>();
     const [city,setCity] = useState('');
-
+    const [dayData, setDayData] = useState<any[]>([]);
+    useEffect(() => {
+        if (router.query['city']) {
+            setCity(String(router.query['city']));
+        } else {
+            setCity(DEAFAULT_CITY)
+        }
+    }, [router.query]);
     useEffect(() => {
         setLoading(true);
         getCurrentWeather(city)
              .then(res => {
                   console.log(res.data)
                   setCity(res.data.name)
-                  setData(res.data);
                   if (res.data.coord.lat && res.data.coord.lon) {
                        getHourlyWeather(res.data.coord.lat, res.data.coord.lon)
-                       .then(err => {
-                             console.log(err.data)
+                       .then(res => {
+                              setDayData(res.data.daily)
                         })
                     }
              })
              .finally(() => setLoading(false));
     
-   },[])
-   const onChangeForm = useCallback((cityName:string) => {
-        console.log(cityName);
-        setCity(cityName);
-   }, []); 
+   },[city])
     if (loading) return <div>Loading...</div>;
     return (
         <>
-               <div className = "container">
-            <div className = "container_name">
-                <p className="city-name">Thời Tiết Ngày -- Tại --</p>
-            </div>
-            <div className="container-state">
-                {data?.main?.temp && <p className="temp">{data.main.temp}°C</p>}
-                {data?.weather?.[0].description && <p className="status">{data.weather[0].description}</p>}
-                <p className="temp-day">Ngày --°C</p>
-                <p className="temp-night">Đêm --°C</p>
-            </div>
-        </div>
+            <DailyTime 
+                title="Thời tiết 7 ngày"
+                dataDaily={dayData?.map((item:any) => {
+                    return {
+                        time:item?.dt,
+                        temp_day:item?.temp?.day,
+                        temp_night:item.temp.night,
+                        iconUrl:item.weather[0].icon,
+                        status:item.weather[0].main,
+                        wind_speed:item.wind_speed,
+                        humidity:item.humidity,
+                        cloud:item.clouds,
+                        uvi:item.uvi,
+                        pressure:item.pressure,
+                        sunrise:item.sunrise,
+                        sunset:item.sunset,
+                        moonrise:item.moonrise,
+                        moonset:item.moonset,
+                    }
+                })}
+            />
         </>
     );
 

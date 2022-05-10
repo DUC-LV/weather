@@ -5,6 +5,7 @@ import { WiHumidity } from 'react-icons/wi'
 import { GiOrbitalRays } from 'react-icons/gi'
 import { BsCloudFog2 } from 'react-icons/bs'
 import { CgCompressV } from 'react-icons/cg'
+import { getFullTimeFromDatetime, getHourFromDatetime } from "../../../Service/utils";
 export interface Hourly {
     time:number,
     temp:number,
@@ -23,29 +24,29 @@ interface CurrentHourlyWeatherData {
 const HourlyTime = (props:CurrentHourlyWeatherData) => {
     const { dataHourly,title } = props;
     const [modal, setModal] = useState(true)
-    const [show, setShow] = useState(false)
-    const times = new Date(Number(dataHourly?.[0]?.time)*1000);
-    const weekday = ["Chủ Nhật","Thứ 2","Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7"];
-    const thu = weekday[times.getDay()];
-    const ngay = times.getDate();
-    const thang = times.getMonth()+1;
-    const gio = times.getHours();
+    const [show, setShow] = useState(null)
+    const Toggle = (index:any) => {
+        if(show === index){
+            return setShow(null);
+        }
+        setShow(index)
+    }
     return(
         <>
             <div className = "container">
                 <h3 className="container-title">{title}</h3>
                 <div className="container-time">
-                    <h4 className="times">{thu} ngày {ngay} tháng {thang}</h4>
+                    <h4 className="times">{getFullTimeFromDatetime(Number(dataHourly?.[0]?.time))}</h4>
                 </div>
                 <div className="accordion">
-                    <div className="accordinon-title" onClick = {() => setModal(!modal)}>
-                        <p className="time">{gio}:00</p>
+                    <div className="accordinon-titles" onClick = {() => setModal(!modal)}>
+                        <p className="time">{getHourFromDatetime(Number(dataHourly?.[0]?.time))}:00</p>
                         <h4 className="temp">{(Number(dataHourly?.[0]?.temp)-273).toFixed(0)} °C</h4>
-                        <img src = {`http://openweathermap.org/img/wn/${dataHourly?.[0]?.iconUrl}@2x.png`} className = "icon" />
+                        <img className = "icon"  src = {`http://openweathermap.org/img/wn/${dataHourly?.[0]?.iconUrl}@2x.png`}  />
                         <p className="status">{dataHourly?.[0]?.status}</p>
                         <p className="wind-speed"><BiWind style = {{color:'rgb(106,222,248)'}} />{dataHourly?.[0]?.wind_speed}km/h</p>
                     </div>
-                    {modal && <div className="accordion-content">
+                    {modal && <div className="accordion-contents">
                         <div className="content-top">
                             <div className="content-temp">
                                 <p><FaTemperatureHigh style = {{color:'rgb(106,222,248)'}} /> Nhiệt Độ</p>
@@ -75,19 +76,17 @@ const HourlyTime = (props:CurrentHourlyWeatherData) => {
                             </div>
                         </div>
                     </div>}
-                    {dataHourly?.map((item:any) => {
-                        const times = new Date(Number(item.time)*1000);
-                        const gio = times.getHours();
+                    {dataHourly?.map((item:any,index) => {
                         return (
                             <div className="accordion">
-                                <div className="accordinon-title" onClick = {() => setShow(!show)}>
-                                    <p className="time">{gio}:00</p>
+                                <div className="accordinon-title" onClick={() => Toggle(index)}>
+                                    <p className="time">{getHourFromDatetime(Number(item?.time))}:00</p>
                                     <h4 className="temp">{((item.temp)-273).toFixed(0)} °C</h4>
                                     <img src = {`http://openweathermap.org/img/wn/${item?.iconUrl}@2x.png`} className = "icon" />
                                     <p className="status">{item?.status}</p>
                                     <p className="wind-speed"><BiWind style = {{color:'rgb(106,222,248)'}} />{item?.wind_speed}km/h</p>
                                 </div>
-                                {show && <div className="accordion-content">
+                                <div className={show === index ? 'accordion-content show':'accordion-content'}>
                                     <div className="content-top">
                                         <div className="content-temp">
                                             <p><FaTemperatureHigh style = {{color:'rgb(106,222,248)'}} /> Nhiệt Độ</p>
@@ -116,7 +115,7 @@ const HourlyTime = (props:CurrentHourlyWeatherData) => {
                                             <p className = "value">{item?.pressure}mb</p>
                                         </div>
                                     </div>
-                                </div>}
+                                </div>
                             </div>
                         )
                     })}
@@ -129,6 +128,7 @@ const HourlyTime = (props:CurrentHourlyWeatherData) => {
                         margin-left:350px;
                         border:none;
                         border-radius:10px;
+                        margin-top:50px;
                     }
                     .container-title,.container-time{
                         margin-left:30px;
@@ -137,38 +137,64 @@ const HourlyTime = (props:CurrentHourlyWeatherData) => {
                     }
                     .accordion{
                     }
+                    .accordinon-titles{
+                        height:80px;
+                        width:780px;
+                        border-top:2px solid #DEDEDE;
+                        margin-left:20px;
+                        margin-top:5px;
+                        cursor:pointer;
+                    }
                     .accordinon-title{
                         height:40px;
                         width:780px;
                         border-top:2px solid #DEDEDE;
                         margin-left:20px;
-                        margin-top:50px;
+                        margin-top:5px;
                         cursor:pointer;
+                    }
+                    .accordion-contents{
+                        width:600px;
+                        height:230px;
+                        border:none;
+                        margin-left:110px;
+                        border-radius:15px;
+                        margin-top:55px;
+                        overflow:hidden;
                     }
                     .time,.temp,.icon,.status,.wind-speed{
                         display:inline;
                         margin-left:30px;
                     }
-                    .time,.temp,.status,.wind-speed{
+                    .time,.temp,.status{
                         position:relative;
                         bottom:50px;
                     }
                     .temp{
-                        margin-left:50px;
+                        margin-left:60px;
                     }
                     .wind-speed{
-                        margin-left:180px;
+                        float:right;
+                        position:relative;
+                        top:20px;
                     }
                     .icon{
-                        margin-left:100px;
+                        margin-left:150px;
                     }
                     .accordion-content{
                         width:600px;
                         height:230px;
-                        border:2px solid #DEDEDE;
+                        border:none;
                         margin-left:110px;
                         border-radius:15px;
                         margin-top:55px;
+                        overflow:hidden;
+                        max-height:0;
+                        transition: all 0.6s cubic-bezier(0,1,0,1);
+                    }
+                    .accordion-content.show{
+                       max-height:9999px;
+                       transition: all 0.6s cubic-bezier(1,0,1,0);
                     }
                     .content-top,.content-bottom{
                         height:100px;
@@ -205,6 +231,12 @@ const HourlyTime = (props:CurrentHourlyWeatherData) => {
                     }
                     .value{
                         text-align:center;
+                    }
+                    @media only screen and (max-width:46.1875em){
+                        .container{
+                            position:relative;
+                            right:80px;
+                        }
                     }
                 `}</style>
             </div>
