@@ -24,5 +24,5 @@ export const getMoonset = (dt : number) => {
     return `${new Date(dt * 1000).getHours()}h${new Date(dt * 1000).getMinutes()}`
 }
 export const getConvertTemp = (dt : number) => {
-    return `${(dt-273).toFixed(0)}`;
+    return `${(dt-273).toFixed(0)} °C`;
 }

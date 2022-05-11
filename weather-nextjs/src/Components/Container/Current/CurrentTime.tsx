@@ -27,7 +27,7 @@ const CurrentTime = (props:CurrentTimeData) => {
                         return(
                             <div className = "box2">
                                 <h3 className = "box1-title"></h3>
-                                <h3 className = "box1-temp">{getConvertTemp(Number(dataHourly?.[0]?.temp))}°C</h3>
+                                <h3 className = "box1-temp">{getConvertTemp(Number(dataHourly?.[0]?.temp))}</h3>
                                 <img src = {`http://openweathermap.org/img/wn/${item.iconUrl}@2x.png`} className ="box1-icon" />
                                 <h4 className = "box1-title">{item.status}</h4>
                             </div>

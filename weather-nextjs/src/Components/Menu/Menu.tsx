@@ -20,7 +20,6 @@ const Menu = (props:myCoordinates) => {
                     <li className = {isActive === 1 ? 'items':''} onClick = {() => setIsActive(1)} >
                         <Link href = {{
                         pathname : "/HourlyWeather",
-                        query : {city:props.city}
                         }}>
                             Hàng Giờ
                         </Link>
@@ -28,7 +27,6 @@ const Menu = (props:myCoordinates) => {
                     <li className = {isActive === 2 ? 'items':''} onClick = {() => setIsActive(2)} >
                         <Link href = {{
                         pathname : "/DailyWeather",
-                        query : {city:props.city}
                         }}>
                             7 Ngày
                         </Link>

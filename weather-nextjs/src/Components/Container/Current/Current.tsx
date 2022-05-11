@@ -35,10 +35,10 @@ const Current = (props:CurrentWeatherData) => {
                     <p className="city-name">Thời Tiết Ngày {getFullTimeFromDatetime(Number(dataCurrent?.[0]?.time))} Tại {dataCurrent?.[0]?.name} </p>
                 </div>
                 <div className="container-state">
-                    <h3 className="temp">{getConvertTemp(Number(dataCurrent?.[0]?.temp))} °C</h3>
+                    <h3 className="temp">{getConvertTemp(Number(dataCurrent?.[0]?.temp))}</h3>
                     <h3 className="status">Trạng Thái: {dataCurrent?.[0]?.status}</h3>
-                    <h3 className="temp-day">Ngày: {getConvertTemp(Number(dataCurrent?.[0]?.temp_day))} °C</h3>
-                    <h3 className="temp-night">Đêm: {getConvertTemp(Number(dataCurrent?.[0]?.temp_night))} °C</h3>
+                    <h3 className="temp-day">Ngày: {getConvertTemp(Number(dataCurrent?.[0]?.temp_day))}</h3>
+                    <h3 className="temp-night">Đêm: {getConvertTemp(Number(dataCurrent?.[0]?.temp_night))}</h3>
                 </div>
                 <div className="icon">
                     <img src = {`http://openweathermap.org/img/wn/${dataCurrent?.[0].iconUrl}@2x.png`}></img>
@@ -48,7 +48,7 @@ const Current = (props:CurrentWeatherData) => {
                 <br></br>
                 <div className="container-body">
                     <h3 className="city-names">Thời Tiết Ngày {getFullTimeFromDatetime(Number(dataCurrent?.[0]?.time))} Tại {dataCurrent?.[0]?.name}</h3>
-                    <h3 className="temp">{getConvertTemp(Number(dataCurrent?.[0]?.temp))} °C</h3>
+                    <h3 className="temp">{getConvertTemp(Number(dataCurrent?.[0]?.temp))}</h3>
                     <h3 className="feel">Cảm giác như: {dataCurrent?.[0]?.status}</h3>
                     <div className="container-body-left">
                         <div className="box-left">

@@ -46,7 +46,7 @@ const DailyTime = (props:DailyWeatherData) => {
                 <div className="accordion">
                     <div className = "accodion-titles" onClick={() => setModal(!modal)}>
                         <h3 className = "times">Hôm nay</h3>
-                        <p className = "temps">{getConvertTemp(Number(dataDaily?.[0]?.temp_day))}°C/{getConvertTemp(Number(dataDaily?.[0]?.temp_day))}°C</p>
+                        <p className = "temps">{getConvertTemp(Number(dataDaily?.[0]?.temp_day))}/{getConvertTemp(Number(dataDaily?.[0]?.temp_day))}</p>
                         <img className = 'icons' src = {`http://openweathermap.org/img/wn/${dataDaily?.[0]?.iconUrl}@2x.png`}></img>
                         <p className = "statuss">{dataDaily?.[0]?.status}</p>
                         <p className = "wind-speeds">{dataDaily?.[0]?.wind_speed} km/h</p>
@@ -55,12 +55,12 @@ const DailyTime = (props:DailyWeatherData) => {
                         <div className = "accodion-content-head">
                             <div className = "accodion-content-head1">
                                 <p className = "time1">Th {thang} {ngay} | Ngày</p>
-                                <p className = "temp1"><FaTemperatureHigh style = {{color:'rgb(106,222,248)'}} /> {(Number(dataDaily?.[0]?.temp_day)-273).toFixed(0)} °C</p>
+                                <p className = "temp1"><FaTemperatureHigh style = {{color:'rgb(106,222,248)'}} /> {(Number(dataDaily?.[0]?.temp_day)-273).toFixed(0)}</p>
                                 <p className = "title1">Chủ yếu có mây. Cao 25 độ C. <br></br>Gió ĐĐB và có thể thay đổi.</p>
                             </div>
                             <div className = "accodion-content-head2">
                                 <p className = "time1">Th {thang} {ngay} | Đêm</p>
-                                <p className = "temp1"><FaTemperatureHigh style = {{color:'rgb(106,222,248)'}} /> {(Number(dataDaily?.[0]?.temp_night)-273).toFixed(0)} °C</p>
+                                <p className = "temp1"><FaTemperatureHigh style = {{color:'rgb(106,222,248)'}} /> {(Number(dataDaily?.[0]?.temp_night)-273).toFixed(0)}</p>
                                 <p className = "title1">Phần nào có mây. Thấp 20 độ C. <br></br>Gió ĐN ở tốc độ 10 đến 15 km/giờ.</p>
                             </div>
                         </div>
@@ -113,7 +113,7 @@ const DailyTime = (props:DailyWeatherData) => {
                             <div className="accordion">
                                 <div className = "accodion-title" onClick={() => Toggle(index)}>
                                     <h3 className = "time">{ngays}Tháng{thangs}</h3>
-                                    <p className = "temp">{(Number(item?.temp_day)-273).toFixed(0)}°C/{(Number(item?.temp_night)-273).toFixed(0)}°C</p>
+                                    <p className = "temp">{(Number(item?.temp_day)-273).toFixed(0)}/{(Number(item?.temp_night)-273).toFixed(0)}</p>
                                     <img className = 'icon' src = {`http://openweathermap.org/img/wn/${item?.iconUrl}@2x.png`}></img>
                                     <p className = "status">{item?.status}</p>
                                     <p className = "wind-speed">{item?.wind_speed} km/h</p>
@@ -122,12 +122,12 @@ const DailyTime = (props:DailyWeatherData) => {
                                     <div className = "accodion-content-head">
                                         <div className = "accodion-content-head1">
                                             <p className = "time1">{ngays} Th {thangs} | Ngày</p>
-                                            <p className = "temp1"><FaTemperatureHigh style = {{color:'rgb(106,222,248)'}} /> {(Number(item?.temp_day)-273).toFixed(0)} °C</p>
+                                            <p className = "temp1"><FaTemperatureHigh style = {{color:'rgb(106,222,248)'}} /> {(Number(item?.temp_day)-273).toFixed(0)}</p>
                                             <p className = "title1">Chủ yếu có mây. Cao 25 độ C. <br></br>Gió ĐĐB và có thể thay đổi.</p>
                                         </div>
                                         <div className = "accodion-content-head2">
                                             <p className = "time1">{ngays} Th {thangs} | Đêm</p>
-                                            <p className = "temp1"><FaTemperatureHigh style = {{color:'rgb(106,222,248)'}} /> {(Number(item?.temp_night)-273).toFixed(0)} °C</p>
+                                            <p className = "temp1"><FaTemperatureHigh style = {{color:'rgb(106,222,248)'}} /> {(Number(item?.temp_night)-273).toFixed(0)}</p>
                                             <p className = "title1">Phần nào có mây. Thấp 20 độ C. <br></br>Gió ĐN ở tốc độ 10 đến 15 km/giờ.</p>
                                         </div>
                                     </div>
