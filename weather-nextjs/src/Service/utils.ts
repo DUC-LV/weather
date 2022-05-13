@@ -3,7 +3,7 @@ export const getFullTimeFromDatetime = (dt: number) => {
     return `${datetime.getDate()}/${datetime.getMonth() + 1}/${datetime.getFullYear()}`
 }
 export const getHourFromDatetime = ( dt : number) => {
-    return `${new Date(dt * 1000).getHours()}`;
+    return `${new Date(dt * 1000).getHours()}h`;
 }
 export const getMonthFromDatetime = ( dt : number) => {
     return `${new Date(dt * 1000).getMonth()+1}`;

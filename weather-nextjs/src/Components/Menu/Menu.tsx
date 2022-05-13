@@ -1,30 +1,29 @@
-import React ,{useState} from "react";
+import React  from "react";
 import Link from "next/link";
-interface myCoordinates{
-    city:string,
-}
+import { useRouter } from "next/router";
 
-const Menu = (props:myCoordinates) => {
-    const [isActive, setIsActive] = useState(0);
+
+const Menu = () => {
+    const router = useRouter();
     return (
         <div className = "menu-top">
             <div className="list-menu">
                 <ul>
-                    <li className = {isActive === 0 ? 'items':''} onClick = {() => setIsActive(0)} >
+                    <li className = {(router.pathname == '/CurrentWeather' || router.pathname == "/" )? 'items':''}  >
                         <Link href = {{
                             pathname :"/"
                             }}>
                             Hôm nay
                         </Link>
                     </li>
-                    <li className = {isActive === 1 ? 'items':''} onClick = {() => setIsActive(1)} >
+                    <li className = {router.pathname == '/HourlyWeather' ? 'items':''} >
                         <Link href = {{
                         pathname : "/HourlyWeather",
                         }}>
                             Hàng Giờ
                         </Link>
                     </li>
-                    <li className = {isActive === 2 ? 'items':''} onClick = {() => setIsActive(2)} >
+                    <li  className = {router.pathname == '/DailyWeather' ? 'items':''} >
                         <Link href = {{
                         pathname : "/DailyWeather",
                         }}>
@@ -38,14 +37,6 @@ const Menu = (props:myCoordinates) => {
                 margin: 0px;
                 padding: 0px;
             }
-            {/* .list-menu{
-                width: 100%;
-                font-size: 18px;
-                height: 30px;
-                background-color:#2E3192;
-                display:flex;
-                justify-content:start;
-            } */}
             .list-menu{
                 background-image: linear-gradient(.25turn,#0C3A4D,#2B5862 60%);
                 height: 30px;

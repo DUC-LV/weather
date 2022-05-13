@@ -7,6 +7,7 @@ import { BsCloudFog2 } from 'react-icons/bs'
 import { CgCompressV } from 'react-icons/cg'
 import { getConvertTemp, getFullTimeFromDatetime, getHourFromDatetime } from "../../../Service/utils";
 import ItemContentHourly from "./ItemContentHourly";
+import ItemTileHourly from "./ItemTitleHourly";
 export interface Hourly {
     time:number,
     temp:number,
@@ -24,11 +25,10 @@ interface CurrentHourlyWeatherData {
 }
 const HourlyTime = (props:CurrentHourlyWeatherData) => {
     const { dataHourly,title } = props;
-    const [modal, setModal] = useState(true)
-    const [show, setShow] = useState(null)
+    const [show, setShow] = useState(0)
     const Toggle = (index:any) => {
         if(show === index){
-            return setShow(null);
+            return setShow(-1);
         }
         setShow(index)
     }
@@ -39,71 +39,17 @@ const HourlyTime = (props:CurrentHourlyWeatherData) => {
                 <div className="container-time">
                     <h4 className="times">{getFullTimeFromDatetime(Number(dataHourly?.[0]?.time))}</h4>
                 </div>
-                <div className="accordion">
-                    <div className="accordinon-titles" onClick = {() => setModal(!modal)}>
-                        <p className="time">{getHourFromDatetime(Number(dataHourly?.[0]?.time))}:00</p>
-                        <h4 className="temp">{getConvertTemp(Number(dataHourly?.[0]?.temp))}</h4>
-                        <img className = "icon"  src = {`http://openweathermap.org/img/wn/${dataHourly?.[0]?.iconUrl}@2x.png`}  />
-                        <p className="status">{dataHourly?.[0]?.status}</p>
-                        <p className="wind-speed"><BiWind style = {{color:'rgb(106,222,248)'}} />{dataHourly?.[0]?.wind_speed}km/h</p>
-                    </div>
-                    {modal && <div className="accordion-contents">
-                        <div className="content-top">
-                            <div className="content-temp">
-                                <ItemContentHourly
-                                    title = "Nhiệt độ"
-                                    icon = {<FaTemperatureHigh />}
-                                    val = {getConvertTemp(Number(dataHourly?.[0]?.temp))}
-                                />
-                            </div>
-                            <div className="content-wind">
-                                <ItemContentHourly
-                                    title = "Tốc độ gió"
-                                    icon = {<BiWind />}
-                                    val = {`${dataHourly?.[0]?.wind_speed} km/h`}
-                                />
-                            </div>
-                            <div className="content-humidity">
-                                <ItemContentHourly
-                                    title = "Độ ẩm"
-                                    icon = {<WiHumidity  />}
-                                    val = {`${dataHourly?.[0]?.humidity}%`}
-                                />
-                            </div>
-                        </div>
-                        <div className="content-bottom">
-                            <div className="content-UV">
-                                <ItemContentHourly 
-                                    title = "U/V"
-                                    icon = {<GiOrbitalRays  />}
-                                    val = {dataHourly?.[0]?.uvi}
-                                />
-                            </div>
-                            <div className="content-cloud">
-                                <ItemContentHourly 
-                                    title = "Mây"
-                                    icon = {<BsCloudFog2  />}
-                                    val = {`${dataHourly?.[0]?.cloud}%`}
-                                />
-                            </div>
-                            <div className="content-rain">
-                                <ItemContentHourly 
-                                    title = "Áp suất"
-                                    icon = {<CgCompressV  />}
-                                    val = {`${dataHourly?.[0]?.pressure}mb`}
-                                />
-                            </div>
-                        </div>
-                    </div>}
                     {dataHourly?.map((item:any,index) => {
                         return (
                             <div className="accordion">
                                 <div className="accordinon-title" onClick={() => Toggle(index)}>
-                                    <p className="time">{getHourFromDatetime(Number(item?.time))}:00</p>
-                                    <h4 className="temp">{getConvertTemp(Number(item?.temp))}</h4>
-                                    <img src = {`http://openweathermap.org/img/wn/${item?.iconUrl}@2x.png`} className = "icon" />
-                                    <p className="status">{item?.status}</p>
-                                    <p className="wind-speed"><BiWind style = {{color:'rgb(106,222,248)'}} />{item?.wind_speed}km/h</p>
+                                    <ItemTileHourly 
+                                        time = {item?.time}
+                                        temp = {item?.temp}
+                                        iconUrl = {item?.iconUrl}
+                                        status = {item?.status}
+                                        val = {item?.wind_speed}
+                                    />
                                 </div>
                                 <div className={show === index ? 'accordion-content show':'accordion-content'}>
                                     <div className="content-top">
@@ -156,7 +102,6 @@ const HourlyTime = (props:CurrentHourlyWeatherData) => {
                             </div>
                         )
                     })}
-                </div>
                 <style jsx>{`
                     .container{
                         height:100%;

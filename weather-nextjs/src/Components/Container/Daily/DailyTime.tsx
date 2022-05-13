@@ -29,13 +29,10 @@ interface DailyWeatherData {
 const DailyTime = (props:DailyWeatherData) => {
     const {title , dataDaily} = props;
     const times = new Date(Number(dataDaily?.[0]?.time)*1000);
-    const [modal, setModal] = useState(true)
-    const [show, setShow] = useState(null)
-    const ngay = times.getDate();
-    const thang = times.getMonth()+1;
+    const [show, setShow] = useState(0)
     const Toggle = (index:any) => {
         if(show === index){
-            return setShow(null);
+            return setShow(-1);
         }
         setShow(index)
     }
@@ -43,68 +40,7 @@ const DailyTime = (props:DailyWeatherData) => {
         <>
             <div className="container">
             <h3 className="title">{title}</h3>
-                <div className="accordion">
-                    <div className = "accodion-titles" onClick={() => setModal(!modal)}>
-                        <h3 className = "times">Hôm nay</h3>
-                        <p className = "temps">{getConvertTemp(Number(dataDaily?.[0]?.temp_day))}/{getConvertTemp(Number(dataDaily?.[0]?.temp_day))}</p>
-                        <img className = 'icons' src = {`http://openweathermap.org/img/wn/${dataDaily?.[0]?.iconUrl}@2x.png`}></img>
-                        <p className = "statuss">{dataDaily?.[0]?.status}</p>
-                        <p className = "wind-speeds">{dataDaily?.[0]?.wind_speed} km/h</p>
-                    </div>
-                    {modal && <div className = "accodion-contents">
-                        <div className = "accodion-content-head">
-                            <div className = "accodion-content-head1">
-                                <p className = "time1">Th {thang} {ngay} | Ngày</p>
-                                <p className = "temp1"><FaTemperatureHigh style = {{color:'rgb(106,222,248)'}} /> {(Number(dataDaily?.[0]?.temp_day)-273).toFixed(0)}</p>
-                                <p className = "title1">Chủ yếu có mây. Cao 25 độ C. <br></br>Gió ĐĐB và có thể thay đổi.</p>
-                            </div>
-                            <div className = "accodion-content-head2">
-                                <p className = "time1">Th {thang} {ngay} | Đêm</p>
-                                <p className = "temp1"><FaTemperatureHigh style = {{color:'rgb(106,222,248)'}} /> {(Number(dataDaily?.[0]?.temp_night)-273).toFixed(0)}</p>
-                                <p className = "title1">Phần nào có mây. Thấp 20 độ C. <br></br>Gió ĐN ở tốc độ 10 đến 15 km/giờ.</p>
-                            </div>
-                        </div>
-                        <div className = "accodion-content-body">
-                            <div className = "accodion-content-body1">
-                                <div className = "a1">
-                                    <p className = "humidity1"><WiHumidity style = {{color:'rgb(106,222,248)'}} /> Độ ẩm</p>
-                                    <p className="value">{dataDaily?.[0]?.humidity} %</p>
-                                    <p className = "uv1"><GiOrbitalRays style = {{color:'rgb(106,222,248)'}} /> U/V</p>
-                                    <p className="value">{dataDaily?.[0]?.uvi}</p>
-                                    <p className = "sunrise"><BsFillSunriseFill style = {{color:'rgb(106,222,248)'}}/> Bình minh</p>
-                                    <p className="value">{getSunrise(Number(dataDaily?.[0]?.sunrise))}:00</p>
-                                </div>
-                                <div className = "a2">
-                                    <p className="wind-speed1"><BiWind style = {{color:'rgb(106,222,248)'}} /> Gió</p>
-                                    <p className="value">{dataDaily?.[0]?.wind_speed} km/h</p>
-                                    <p className="pressure1"><CgCompressV style = {{color:'rgb(106,222,248)'}} /> Áp suất</p>
-                                    <p className="value">{dataDaily?.[0]?.pressure} mb</p>
-                                    <p className = "sunset"><BsFillSunsetFill style = {{color:'rgb(106,222,248)'}}/> Hoàng hôn</p>
-                                    <p className="value">{getSunset(Number(dataDaily?.[0]?.sunset))}:00</p>
-                                </div>
-                            </div>
-                            <div className = "accodion-content-body2">
-                                <div className = "a1">
-                                    <p className = "humidity1"><WiHumidity style = {{color:'rgb(106,222,248)'}} /> Độ ẩm</p>
-                                    <p className="value">{dataDaily?.[0]?.humidity} %</p>
-                                    <p className = "uv1"><GiOrbitalRays style = {{color:'rgb(106,222,248)'}} /> U/V</p>
-                                    <p className="value">0</p>
-                                    <p className = "moonrise"><BsFillCloudMoonFill style = {{color:'rgb(106,222,248)'}}/> Trăng mọc</p>
-                                    <p className="value">{getMoonrise(Number(dataDaily?.[0]?.moonrise))}:00</p>
-                                </div>
-                                <div className = "a2">
-                                    <p className="wind-speed1"><BsCloudFog2 style = {{color:'rgb(106,222,248)'}} /> Có mây</p>
-                                    <p className="value">{dataDaily?.[0]?.cloud}%</p>
-                                    <p className="pressure1"><CgCompressV style = {{color:'rgb(106,222,248)'}} /> Áp suất</p>
-                                    <p className="value">{dataDaily?.[0]?.pressure} mb</p>
-                                    <p className = "moonset"><BsFillMoonFill style = {{color:'rgb(106,222,248)'}}/> Trăng lặn</p>
-                                    <p className="value">{getMoonset(Number(dataDaily?.[0]?.moonset))}:00</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>}
-                </div>
-                {dataDaily?.slice(1,7)?.map((item:any,index) => {
+                {dataDaily?.slice(0,7)?.map((item:any,index) => {
                     const times = new Date(item.time*1000);
                     const ngays = times.getDate();
                     const thangs = times.getMonth()+1;
